@@ -490,7 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32acc0f8a7064c947840a692ff25757e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rayDistance: 1.3
+  _rayDistance: 1.3
 --- !u!61 &338945370
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3009,7 +3009,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _coinPrefab: {fileID: 6749537422375980208, guid: 5c3b3b2959a229e4da9484efb4c3ea4b, type: 3}
-  _spawnDelay: 0.5
 --- !u!1 &1355095286
 GameObject:
   m_ObjectHideFlags: 0

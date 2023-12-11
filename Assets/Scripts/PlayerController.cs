@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    private const string JumpTriggerName = "Jump";
+    private const string FallTriggerName = "Fall";
+    private const string CrouchBoolName = "IsCrouch";
+    private const string GroundedBoolName = "IsGrounded";
+    private const string SpeedFloatName = "Speed";
+
     [SerializeField] private Rigidbody2D _rigidbody = new Rigidbody2D();
     [SerializeField] private BoxCollider2D _boxCollaider2D;
     [SerializeField] private Animator _animator;
@@ -19,10 +25,10 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Move();
-
         if( _isJumping == false )
-            Jump();        
+            Jump();
+
+        Move();
     }
 
     private void Update()
@@ -30,46 +36,54 @@ public class PlayerController : MonoBehaviour
         Crouch();
     }
 
-    public void Jump()
+    private void Jump()
     {
         if (Input.GetKey(KeyCode.Space))
         {
             _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
-            _animator.SetTrigger("Jump");
+            _animator.SetTrigger(JumpTriggerName);
             _isJumping = true;
         }
     }
 
-    public void Crouch()
+    private void Crouch()
     {
+        Vector2 colliderNormalSize = new Vector2(1f, 1.38f);
+        Vector2 colliderNormalOffset = new Vector2(-0.03f, -0.29f);
+        Vector2 colliderCrouchSize = new Vector2(1.12f, 1f);
+        Vector2 colliderCrouchOffset = new Vector2(-0.09f, -0.49f);
+
         if (Input.GetKey(KeyCode.S))
         {
             _isCrouch = true;
-            _boxCollaider2D.size = new Vector2(1.12f, 1f);
-            _boxCollaider2D.offset = new Vector2(-0.09f, -0.49f);
+            _boxCollaider2D.size = colliderCrouchSize;
+            _boxCollaider2D.offset = colliderCrouchOffset;
         }
 
         if (Input.GetKeyUp(KeyCode.S))
         {
             _isCrouch = false;
-            _boxCollaider2D.size = new Vector2(1f, 1.38f);
-            _boxCollaider2D.offset = new Vector2(-0.03f, -0.29f);
+            _boxCollaider2D.size = colliderNormalSize;
+            _boxCollaider2D.offset = colliderNormalOffset;
         }
         
-        _animator.SetBool("IsCrouch", _isCrouch);
+        _animator.SetBool(CrouchBoolName, _isCrouch);
     }
 
     private void Move()
     {
-        _animator.SetBool("IsGrounded", _groundDetection.IsGrounded);
-
-        if (_isJumping == false && _groundDetection.IsGrounded == false)
-            _animator.SetTrigger("Fall");
+        _animator.SetBool(GroundedBoolName, _groundDetection.IsGrounded);
 
         _isJumping = _isJumping == true && _groundDetection.IsGrounded == false;
         _direction = Vector2.zero;
 
-        if(_isCrouch == false)
+        //if (_isJumping == false && _groundDetection.IsGrounded == false)
+        //    _animator.SetTrigger(FallTriggerName);
+
+        if (_rigidbody.velocity.y < 0)
+            _animator.SetTrigger(FallTriggerName);
+
+        if (_isCrouch == false)
         {
             if (Input.GetKey(KeyCode.A))
             {
@@ -94,7 +108,9 @@ public class PlayerController : MonoBehaviour
                 _spriteRenderer.flipX = true;
             }
 
-            _animator.SetFloat("Speed", Mathf.Abs(_direction.x));
+            _animator.SetFloat(SpeedFloatName, Mathf.Abs(_direction.x));
         }
+
+
     }
 }

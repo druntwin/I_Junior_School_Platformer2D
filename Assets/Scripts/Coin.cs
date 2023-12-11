@@ -17,7 +17,7 @@ public class Coin : MonoBehaviour
         }
     }
 
-    IEnumerator DestroyCoin()
+    private IEnumerator DestroyCoin()
     {
         float delay = 0.1f;
         var waitSomeTime = new WaitForSeconds(delay);
