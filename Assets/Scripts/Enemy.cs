@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.TryGetComponent<PlayerController>(out PlayerController playerController);
+        collision.TryGetComponent(out PlayerController playerController);
 
         if (playerController != null)
             Destroy(playerController.gameObject);

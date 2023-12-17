@@ -5,13 +5,12 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
 {
-    private const string JumpTriggerName = "Jump";
-    private const string FallTriggerName = "Fall";
-    private const string CrouchBoolName = "IsCrouch";
-    private const string GroundedBoolName = "IsGrounded";
+    private const string JumpBoolName = "Jump";
+    private const string FallBoolName = "Fall";
+    private const string CrouchBoolName = "Crouch";
+    private const string GroundedBoolName = "Grounded";
     private const string SpeedFloatName = "Speed";
 
-    [SerializeField] private Rigidbody2D _rigidbody;
     [SerializeField] private BoxCollider2D _boxCollaider2D;
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _spriteRenderer;
@@ -19,8 +18,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpForce = 2f;
     [SerializeField] private float _speed = 5f;
 
+    private Rigidbody2D _rigidbody;
     private Vector2 _direction;
     private bool _isJumping;
+    private bool _isFalling;
     private bool _isCrouch;
 
     private Vector2 _colliderNormalSize = new Vector2(1f, 1.38f);
@@ -35,24 +36,25 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if( _isJumping == false )
-            Jump();
-
         Move();
     }
 
     private void Update()
     {
-        Crouch();
+        Crouch();        
+        Jump();
     }
 
     private void Jump()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (_isJumping == false)
         {
-            _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
-            _animator.SetTrigger(JumpTriggerName);
-            _isJumping = true;
+            if (Input.GetKey(KeyCode.Space))
+            {
+                _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
+                _isJumping = true;
+                _animator.SetBool(JumpBoolName, _isJumping);
+            }
         }
     }
 
@@ -77,13 +79,17 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        _animator.SetBool(GroundedBoolName, _groundDetection.IsGrounded);
-
-        _isJumping = _isJumping == true && _groundDetection.IsGrounded == false;
         _direction = Vector2.zero;
+        _isJumping = _isJumping == true && _groundDetection.IsGrounded == false;
 
         if (_rigidbody.velocity.y < 0)
-            _animator.SetTrigger(FallTriggerName);
+        {
+            _isFalling = _groundDetection.IsGrounded == false;
+        }
+
+        _animator.SetBool(JumpBoolName, _isJumping);
+        _animator.SetBool(FallBoolName, _isFalling);
+        _animator.SetBool(GroundedBoolName, _groundDetection.IsGrounded);
 
         if (_isCrouch == false)
         {
