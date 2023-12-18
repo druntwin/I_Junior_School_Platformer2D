@@ -8,9 +8,9 @@ public class Coin : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.TryGetComponent(out PlayerController playerController);
+        collision.TryGetComponent(out Player player);
 
-        if (playerController != null)
+        if (player != null)
         {
             _audioSource.PlayOneShot(_audioSource.clip);
             StartCoroutine(DestroyCoin());

@@ -6,9 +6,9 @@ public class Enemy : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.TryGetComponent(out PlayerController playerController);
+        collision.TryGetComponent(out Player player);
 
-        if (playerController != null)
-            Destroy(playerController.gameObject);
+        if (player != null)
+            Destroy(player.gameObject);
     }
 }
