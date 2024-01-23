@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinsSpawner : MonoBehaviour
+public class ObjectSpawner : MonoBehaviour
 {
-    [SerializeField] private Coin _coinPrefab;
+    [SerializeField] private GameObject _objectPrefab;
 
     private Transform[] _points;
     private int _currentPointIndex;
@@ -18,14 +18,14 @@ public class CoinsSpawner : MonoBehaviour
             _points[i] = transform.GetChild(i);
         }
 
-        SpawnCoins();
+        SpawnObject();
     }
 
-    private void SpawnCoins()
+    private void SpawnObject()
     {
         for (int i = 0; i < _points.Length; i++)
         {
-            Instantiate(_coinPrefab, _points[i].transform.position, Quaternion.identity, _points[i].transform);
+            Instantiate(_objectPrefab, _points[i].transform.position, Quaternion.identity, _points[i].transform);
         }
     }
 }

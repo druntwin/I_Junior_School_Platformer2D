@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+public class CollectableObject : MonoBehaviour
 {
     [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private float _destroyObjectDelay = 0.1f;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -13,15 +14,13 @@ public class Coin : MonoBehaviour
         if (player != null)
         {
             _audioSource.PlayOneShot(_audioSource.clip);
-            StartCoroutine(DestroyCoin());
+            StartCoroutine(DestroyObject());
         }
     }
 
-    private IEnumerator DestroyCoin()
+    private IEnumerator DestroyObject()
     {
-        float delay = 0.1f;
-
-        yield return new WaitForSeconds(delay);
+        yield return new WaitForSeconds(_destroyObjectDelay);
 
         Destroy(gameObject);
     }
