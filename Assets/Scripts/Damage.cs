@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class Damage : MonoBehaviour
 {
-    [SerializeField] private int _damage = 0;
-    [SerializeField] private LayerMask _collideLayerMask;
+    [SerializeField] private Health _health;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void TakeDamage(int damage)
     {
-        if(collision.gameObject.layer == _collideLayerMask)
-        {
-            collision.transform.TryGetComponent(out Health health);
-            health.TakeDamage(_damage);
-        }
+        _health.ReduseHealth(damage);
     }
 }

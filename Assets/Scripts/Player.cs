@@ -11,11 +11,12 @@ public class Player : MonoBehaviour
     private const string GroundedBoolName = "Grounded";
     private const string SpeedFloatName = "Speed";
 
-    [SerializeField] private BoxCollider2D _boxCollaider2D;
+    [SerializeField] private CapsuleCollider2D _capsuleCollaider;
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private GroundDetection _groundDetection;
     [SerializeField] private float _jumpForce = 2f;
+    [SerializeField] private float _attackJumpForce = 0.5f;
     [SerializeField] private float _speed = 5f;
 
     private Rigidbody2D _rigidbody;
@@ -24,14 +25,15 @@ public class Player : MonoBehaviour
     private bool _isFalling;
     private bool _isCrouch;
 
-    private Vector2 _colliderNormalSize = new Vector2(1f, 1.38f);
-    private Vector2 _colliderNormalOffset = new Vector2(-0.03f, -0.29f);
-    private Vector2 _colliderCrouchSize = new Vector2(1.12f, 1f);
-    private Vector2 _colliderCrouchOffset = new Vector2(-0.09f, -0.49f);
+    private Vector2 _colliderNormalSize = new Vector2(1.05f, 1.3f);
+    private Vector2 _colliderNormalOffset = new Vector2(-0.055f, -0.38f);
+    private Vector2 _colliderCrouchSize = new Vector2(1.05f, 1.05f);
+    private Vector2 _colliderCrouchOffset = new Vector2(-0.055f, -0.5f);
 
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+
     }
 
     private void FixedUpdate()
@@ -58,20 +60,25 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void DoAttackJump()
+    {
+        _rigidbody.AddForce(new Vector2(0, _attackJumpForce), ForceMode2D.Impulse);
+    }
+
     private void Crouch()
     {
         if (Input.GetKey(KeyCode.S))
         {
             _isCrouch = true;
-            _boxCollaider2D.size = _colliderCrouchSize;
-            _boxCollaider2D.offset = _colliderCrouchOffset;
+            _capsuleCollaider.size = _colliderCrouchSize;
+            _capsuleCollaider.offset = _colliderCrouchOffset;
         }
 
         if (Input.GetKeyUp(KeyCode.S))
         {
             _isCrouch = false;
-            _boxCollaider2D.size = _colliderNormalSize;
-            _boxCollaider2D.offset = _colliderNormalOffset;
+            _capsuleCollaider.size = _colliderNormalSize;
+            _capsuleCollaider.offset = _colliderNormalOffset;
         }
         
         _animator.SetBool(CrouchBoolName, _isCrouch);

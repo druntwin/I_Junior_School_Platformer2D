@@ -40,7 +40,6 @@ public class WaypointMovement : MonoBehaviour
         {
             target = hitObstacle.transform;
             Debug.DrawRay(transform.position, Vector2.right * new Vector2(_characterDirection, 0f) * hitObstacle.distance, Color.red);
-            Debug.Log(hitObstacle.collider.name);
         }
         else
         {

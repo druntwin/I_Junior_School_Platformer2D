@@ -23,17 +23,3 @@ public class GroundDetection : MonoBehaviour
         }
     }  
 }
-
-public enum LayerBits
-{
-    Ground = 8,
-    Player = 9,
-    Enemies = 10
-}
-
-public enum LayerMasks
-{
-    Ground = 1 << LayerBits.Ground,
-    Player = 1 << LayerBits.Player,
-    Enemies = 1 << LayerBits.Enemies,
-}

@@ -4,11 +4,5 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        collision.transform.TryGetComponent(out Player player);
 
-        if (player != null)
-            Destroy(player.gameObject);
-    }
 }

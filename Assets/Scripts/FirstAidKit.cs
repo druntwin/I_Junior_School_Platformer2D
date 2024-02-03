@@ -5,11 +5,11 @@ using UnityEngine;
 public class FirstAidKit : MonoBehaviour
 {
     [SerializeField] private int _additionalHealth;
-    [SerializeField] private string _collisionTag;
+    [SerializeField] private LayerMask _collisionLayerMask;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == _collisionTag)
+        if (collision.gameObject.layer == _collisionLayerMask)
         {
             collision.transform.TryGetComponent(out Health health);
             if (health != null)
