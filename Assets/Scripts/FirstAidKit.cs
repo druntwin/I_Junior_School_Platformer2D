@@ -14,7 +14,7 @@ public class FirstAidKit : MonoBehaviour
             collision.transform.TryGetComponent(out Health health);
 
             if (health != null)
-                health.AddHealth(_additionalHealth);
+                health.Add(_additionalHealth);
         }
     }
 }

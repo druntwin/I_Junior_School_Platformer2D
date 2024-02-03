@@ -20,7 +20,7 @@ public class Health : MonoBehaviour
         _animator.SetFloat(_healthHash, _health);
     }
 
-    public void ReduseHealth(int reducer)
+    public void Reduse(int reducer)
     {
         _health -= reducer;
         _animator.SetFloat(_healthHash, _health);
@@ -30,7 +30,7 @@ public class Health : MonoBehaviour
             _capsuleCollider.enabled = false;
     }
 
-    public void AddHealth(int health)
+    public void Add(int health)
     {
         _health += health;
 

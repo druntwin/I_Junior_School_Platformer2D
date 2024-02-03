@@ -25,7 +25,7 @@ public class PlayerAttack : MonoBehaviour
             {
                 if(_isHit == false)
                 {
-                    health.ReduseHealth(_damage);
+                    health.Reduse(_damage);
                     _player.DoAttackJump();
                     _isHit = true;
                 }

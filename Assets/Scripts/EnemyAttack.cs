@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    private const string PlayerTag = "Player";
-
     [SerializeField] private int _damage = 0;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == PlayerTag)
+        if (collision.transform.TryGetComponent(out Player player))
         {
-            collision.transform.TryGetComponent(out Health health);
+            if(player != null)
+            {
+                collision.transform.TryGetComponent(out Health health);
 
-            if (health != null)
-                health.ReduseHealth(_damage);
+                if (health != null)
+                    health.Reduse(_damage);
+            }
         }
     }
 }
