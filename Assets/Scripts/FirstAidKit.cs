@@ -12,6 +12,7 @@ public class FirstAidKit : MonoBehaviour
         if (collision.gameObject.layer == _collisionLayerMask)
         {
             collision.transform.TryGetComponent(out Health health);
+
             if (health != null)
                 health.AddHealth(_additionalHealth);
         }

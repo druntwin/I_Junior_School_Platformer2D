@@ -33,7 +33,6 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
-
     }
 
     private void FixedUpdate()

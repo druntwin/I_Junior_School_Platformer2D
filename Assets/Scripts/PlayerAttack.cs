@@ -16,6 +16,7 @@ public class PlayerAttack : MonoBehaviour
         Debug.DrawLine(transform.position, transform.position - new Vector3(0, _rayDistance, 0), Color.red);
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, _rayDistance, _layerMask);
+
         if (hit.collider != null)
         {
             hit.collider.transform.TryGetComponent(out Health health);
