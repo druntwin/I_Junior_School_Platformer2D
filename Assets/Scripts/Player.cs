@@ -5,13 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : MonoBehaviour
 {
-    private const string JumpBoolName = "Jump";
-    private const string FallBoolName = "Fall";
-    private const string CrouchBoolName = "Crouch";
-    private const string GroundedBoolName = "Grounded";
-    private const string SpeedFloatName = "Speed";
-
-    [SerializeField] private CapsuleCollider2D _capsuleCollaider;
+    [SerializeField] private GameObject _characterRoot;
+    [SerializeField] private CapsuleCollider2D _capsuleCollider;
     [SerializeField] private Animator _animator;
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private GroundDetection _groundDetection;
@@ -19,11 +14,21 @@ public class Player : MonoBehaviour
     [SerializeField] private float _attackJumpForce = 0.5f;
     [SerializeField] private float _speed = 5f;
 
+    private int _jumpHash = Animator.StringToHash("Jump");
+    private int _fallHash = Animator.StringToHash("Fall");
+    private int _crouchHash = Animator.StringToHash("Crouch");
+    private int _groundedHash = Animator.StringToHash("Grounded");
+    private int _speedHash = Animator.StringToHash("Speed");
+    private int _healthHash = Animator.StringToHash("Health");
+    private int _hitHash = Animator.StringToHash("Hit");
+
     private Rigidbody2D _rigidbody;
     private Vector2 _direction;
     private bool _isJumping;
     private bool _isFalling;
     private bool _isCrouch;
+
+    private float _previousHealth;
 
     private Vector2 _colliderNormalSize = new Vector2(1.05f, 1.3f);
     private Vector2 _colliderNormalOffset = new Vector2(-0.055f, -0.38f);
@@ -46,6 +51,24 @@ public class Player : MonoBehaviour
         Jump();
     }
 
+    public void UpdateHealthAnimator(float health)
+    {
+        _animator.SetFloat(_healthHash, health);
+
+        if(health < _previousHealth)
+            _animator.SetTrigger(_hitHash);
+
+        if (health <= 0)
+            _capsuleCollider.enabled = false;
+
+        _previousHealth = health;
+    }
+
+    private void Kill()
+    {
+        Destroy(_characterRoot);
+    }
+
     private void Jump()
     {
         if (_isJumping == false)
@@ -54,7 +77,7 @@ public class Player : MonoBehaviour
             {
                 _rigidbody.AddForce(new Vector2(0, _jumpForce), ForceMode2D.Impulse);
                 _isJumping = true;
-                _animator.SetBool(JumpBoolName, _isJumping);
+                _animator.SetBool(_jumpHash, _isJumping);
             }
         }
     }
@@ -69,18 +92,18 @@ public class Player : MonoBehaviour
         if (Input.GetKey(KeyCode.S))
         {
             _isCrouch = true;
-            _capsuleCollaider.size = _colliderCrouchSize;
-            _capsuleCollaider.offset = _colliderCrouchOffset;
+            _capsuleCollider.size = _colliderCrouchSize;
+            _capsuleCollider.offset = _colliderCrouchOffset;
         }
 
         if (Input.GetKeyUp(KeyCode.S))
         {
             _isCrouch = false;
-            _capsuleCollaider.size = _colliderNormalSize;
-            _capsuleCollaider.offset = _colliderNormalOffset;
+            _capsuleCollider.size = _colliderNormalSize;
+            _capsuleCollider.offset = _colliderNormalOffset;
         }
         
-        _animator.SetBool(CrouchBoolName, _isCrouch);
+        _animator.SetBool(_crouchHash, _isCrouch);
     }
 
     private void Move()
@@ -93,9 +116,9 @@ public class Player : MonoBehaviour
             _isFalling = _groundDetection.IsGrounded == false;
         }
 
-        _animator.SetBool(JumpBoolName, _isJumping);
-        _animator.SetBool(FallBoolName, _isFalling);
-        _animator.SetBool(GroundedBoolName, _groundDetection.IsGrounded);
+        _animator.SetBool(_jumpHash, _isJumping);
+        _animator.SetBool(_fallHash, _isFalling);
+        _animator.SetBool(_groundedHash, _groundDetection.IsGrounded);
 
         if (_isCrouch == false)
         {
@@ -123,7 +146,7 @@ public class Player : MonoBehaviour
                 _spriteRenderer.flipX = true;
             }
 
-            _animator.SetFloat(SpeedFloatName, Mathf.Abs(_direction.x));
+            _animator.SetFloat(_speedHash, Mathf.Abs(_direction.x));
         }
     }
 }

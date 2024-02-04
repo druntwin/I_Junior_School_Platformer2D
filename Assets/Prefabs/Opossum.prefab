@@ -111,6 +111,7 @@ GameObject:
   - component: {fileID: 4142820581943388846}
   - component: {fileID: 1574415808573374499}
   - component: {fileID: 8979366836121632456}
+  - component: {fileID: 460580747912455400}
   m_Layer: 10
   m_Name: Opossum
   m_TagString: Enemy
@@ -299,11 +300,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deb028f3cc3931e4f93439685aed6111, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _characterRoot: {fileID: 8453966950415207719}
   _animator: {fileID: 3665974661729869053}
   _capsuleCollider: {fileID: 986686131922902044}
   _maxHealth: 100
   _health: 0
+  HealthChanged:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 460580747912455400}
+        m_TargetAssemblyTypeName: Enemy, Assembly-CSharp
+        m_MethodName: UpdateHealthAnimator
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &8979366836121632456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +332,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damage: 10
+--- !u!114 &460580747912455400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6545891559202922233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0eb86be53768924bb712cb956b25445, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterRoot: {fileID: 8453966950415207719}
+  _capsuleCollider: {fileID: 986686131922902044}
+  _animator: {fileID: 3665974661729869053}
 --- !u!1 &8453966950415207719
 GameObject:
   m_ObjectHideFlags: 0
