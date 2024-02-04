@@ -11,15 +11,6 @@ public class GroundDetection : MonoBehaviour
 
     private void Update()
     {
-        Debug.DrawLine(transform.position, transform.position - new Vector3(0,_rayDistance,0), Color.green);
-
-        if (Physics2D.Raycast(transform.position, -Vector2.up, _rayDistance, _layerMask))
-        {
-            IsGrounded = true;
-        }
-        else
-        {
-            IsGrounded = false;
-        }
+        IsGrounded = Physics2D.Raycast(transform.position, -Vector2.up, _rayDistance, _layerMask);
     }  
 }

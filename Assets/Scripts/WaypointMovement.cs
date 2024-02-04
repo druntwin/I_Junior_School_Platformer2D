@@ -39,12 +39,10 @@ public class WaypointMovement : MonoBehaviour
         if (hitObstacle.collider != null)
         {
             target = hitObstacle.transform;
-            Debug.DrawRay(transform.position, Vector2.right * new Vector2(_characterDirection, 0f) * hitObstacle.distance, Color.red);
         }
         else
         {
             target = _points[_currentPointIndex];
-            Debug.DrawRay(transform.position, Vector2.right * new Vector2(_characterDirection, 0f) * hitObstacle.distance, Color.green);
         }
 
         transform.position = Vector3.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
