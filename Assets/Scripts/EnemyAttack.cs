@@ -10,12 +10,9 @@ public class EnemyAttack : MonoBehaviour
     {
         if (collision.transform.TryGetComponent(out Player player))
         {
-            if(player != null)
+            if(collision.transform.TryGetComponent(out Health health))
             {
-                collision.transform.TryGetComponent(out Health health);
-
-                if (health != null)
-                    health.Reduse(_damage);
+                health.Reduse(_damage);
             }
         }
     }
