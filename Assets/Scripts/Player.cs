@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
 
     private void Kill()
     {
-        Destroy(_characterRoot);
+        _characterRoot.SetActive(false);
     }
 
     private void Jump()
